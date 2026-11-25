@@ -12,12 +12,21 @@
 หน้าต่างเดิมของ v9 ที่เด้งขึ้นมา (คีย์บอร์ด เขียนโค้ด รายงาน แจ้งเตือนแบต) เป็นอังกฤษทั้งหมด (`LANGUAGE = "en"` ใน config.py)
 ชื่อของที่เด็กพิมพ์เป็นภาษาไทยยังใช้ได้ และแสดงบนกรอบได้ถูกต้อง
 
-## ลองใช้ (ยังไม่ต้อง build)
-ดับเบิลคลิก `Run.bat`
-- ใช้ Python ของ `D:\AI_Detection_Lab_v9.0.0_Windows_Build_Kit\.venv` (มี PySide6, PyTorch, ultralytics ครบแล้ว)
-- ถ้าในโฟลเดอร์นี้มี `.venv` (สร้างตอน build) จะใช้ตัวนั้นแทน หรือตั้ง `AIR_DETECTION_PYEXE` เป็น python.exe อื่น
-- ข้อมูล (โมเดล รูป โปรเจกต์) ตอนรันจาก `Run.bat` เก็บที่ `AI Data & Training\` ในโฟลเดอร์นี้
-- เปิดพร้อม AI Detection Lab v9 หรือ Swarm Detection Lab ไม่ได้ (ใช้โดรนและกล้องพร้อมกันไม่ได้)
+## ติดตั้งบนเครื่องใหม่ (รันจากซอร์ส)
+1. โหลดโค้ด: `git clone https://github.com/Phanphisut/AIR-Detection.git` (หรือ Code → Download ZIP แล้วแตกไฟล์)
+2. ดับเบิลคลิก **`setup.bat`** ครั้งเดียว (ไม่ต้องใช้สิทธิ์ admin, ต่อเน็ต, ใช้เวลาราว 5-15 นาที)
+   - ติดตั้ง Python 3.13 ผ่าน winget ถ้ายังไม่มี
+   - สร้าง venv ที่ `%USERPROFILE%\.venvs\air-detection` (นอกโฟลเดอร์โปรเจกต์ จะได้ไม่ซิงก์ขึ้น OneDrive)
+   - เจอการ์ดจอ NVIDIA (`nvidia-smi`) จะลง PyTorch รุ่น CUDA 12.6 ให้เอง ไม่เจอก็ลงรุ่น CPU
+     (บังคับรุ่น CPU: `set TORCH_CUDA=cpu` ก่อนรัน)
+   - รันซ้ำได้ ใช้ซ่อม/อัปเดตแพ็กเกจ
+3. เปิดโปรแกรม: ดับเบิลคลิก **`Run.bat`** (ถ้ายังไม่ได้ setup จะเรียก setup.bat ให้เอง)
+   หรือเปิดโฟลเดอร์ใน **VS Code** แล้วกด **F5** (ต้องมีส่วนขยาย Python ของ Microsoft)
+   - `AIR Detection (Pixel UI)` = หน้าตาพิกเซล, `AIR Detection (original UI)` = หน้าตาเดิม
+
+ข้อมูล (โมเดล รูป โปรเจกต์) ตอนรันจากซอร์สเก็บที่ `AI Data & Training\` ในโฟลเดอร์นี้ (ไม่ขึ้น git)
+เปิดพร้อม AI Detection Lab v9 หรือ Swarm Detection Lab ไม่ได้ (ใช้โดรนและกล้องพร้อมกันไม่ได้)
+ปิดธีมพิกเซล: `AIR_PIXEL_UI=0` · ปิดพื้นหลังโดรนเคลื่อนไหว: `AIR_BACKDROP=0`
 
 ## Build เป็น .exe + ตัวติดตั้ง (แบบเดียวกับ AI Detection Lab v9 Build Kit)
 1. `setup_windows.bat` ครั้งเดียว: ติดตั้ง Python 3.13, Visual Studio Build Tools (C++), Inno Setup 6

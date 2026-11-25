@@ -30,7 +30,6 @@ from .workers import (
     make_preview_callback,
 )
 
-EXAMPLES = ("ลูกบอล", "ตุ๊กตาหมี", "กรวยจราจร")
 VIDEO_FILTER = "Videos (" + " ".join(f"*{s}" for s in VIDEO_SUFFIXES) + ")"
 THUMB_SIZE = (160, 90)
 PROJECT_ROWS_VISIBLE = 4
@@ -39,7 +38,7 @@ GOOD_SCORE = 80
 OK_SCORE = 60
 
 QSS = """
-QWidget#teachRoot { background: #0b1118; color: #e8eef5; font-family: "Segoe UI", "Leelawadee UI", "Tahoma"; font-size: 11pt; }
+QWidget#teachRoot { background: transparent; color: #e8eef5; font-family: "Segoe UI", "Leelawadee UI", "Tahoma"; font-size: 11pt; }
 QWidget#teachRoot QLabel { background: transparent; }
 QFrame#stepBar { background: #0f1720; border-bottom: 1px solid #263544; }
 QPushButton#stepBtn { background: transparent; color: #8ea0b2; border: none; border-radius: 8px;
@@ -248,21 +247,22 @@ class TeachPage(QtWidgets.QWidget):
         col.addStretch(1)
         card, lay = _card()
         card.setMinimumWidth(620)
-        lay.addWidget(_label("What should the AI learn to find?", "title"))
-        lay.addWidget(_label("พิมพ์ชื่อของ 1 อย่าง แล้วเตรียมคลิปวิดีโอของสิ่งนั้นไว้", "sub"))
+        center = QtCore.Qt.AlignHCenter
+        title = _label("What should the AI learn to find?", "title")
+        sub = _label("พิมพ์ชื่อของ 1 อย่าง แล้วเตรียมคลิปวิดีโอของสิ่งนั้นไว้", "sub")
+        for label in (title, sub):
+            label.setAlignment(center)
+            lay.addWidget(label)
         self.name_input = QtWidgets.QLineEdit()
-        self.name_input.setPlaceholderText("ลูกบอล")
+        self.name_input.setPlaceholderText("พิมพ์ชื่อสิ่งที่จะสอน")
+        self.name_input.setAlignment(center)
         self.name_input.setMaxLength(30)
         self.name_input.returnPressed.connect(self._create_project)
         lay.addWidget(self.name_input)
-        chips = QtWidgets.QHBoxLayout()
-        for name in EXAMPLES:
-            chips.addWidget(_button(name, "chip", lambda n=name: self.name_input.setText(n)))
-        chips.addStretch(1)
-        lay.addLayout(chips)
         self.name_error = _label("", "warn")
+        self.name_error.setAlignment(center)
         lay.addWidget(self.name_error)
-        lay.addWidget(_button("Start", "primary", self._create_project), 0, QtCore.Qt.AlignLeft)
+        lay.addWidget(_button("Start", "primary", self._create_project), 0, center)
         col.addWidget(card)
         col.addSpacing(16)
         self.projects_card, projects_lay = _card()

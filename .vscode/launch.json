@@ -6,22 +6,30 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/entry_point.py",
+            "python": "${env:USERPROFILE}\\.venvs\\air-detection\\Scripts\\python.exe",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "justMyCode": true,
             "subProcess": false,
-            "env": { "PYTHONUTF8": "1" }
+            "env": {
+                "PYTHONUTF8": "1"
+            }
         },
         {
             "name": "AIR Detection (original UI)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/entry_point.py",
+            "python": "${env:USERPROFILE}\\.venvs\\air-detection\\Scripts\\python.exe",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "justMyCode": true,
             "subProcess": false,
-            "env": { "PYTHONUTF8": "1", "AIR_PIXEL_UI": "0" }
+            "env": {
+                "PYTHONUTF8": "1",
+                "AIR_PIXEL_UI": "0",
+                "AIR_BACKDROP": "0"
+            }
         }
     ]
 }

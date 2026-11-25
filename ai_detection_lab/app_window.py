@@ -24,7 +24,6 @@ APP_VERSION = "1.0.0"
 SINGLE_INSTANCE_KEY = "AI_Detection_Lab-SingleInstanceGuard"
 
 QSS = """
-QWidget#appRoot { background: #0b1118; }
 QFrame#modeBar { background: #0f1720; border-bottom: 1px solid #263544; }
 QLabel#brand { color: #f4f8fb; font-family: "Segoe UI"; font-size: 15px; font-weight: 800; }
 QLabel#brandSub { color: #77e4d0; font-family: "Segoe UI"; font-size: 8pt; font-weight: 700; letter-spacing: 1px; }
@@ -34,7 +33,7 @@ QPushButton#modeBtn {
 }
 QPushButton#modeBtn:hover { border-color: #3b5568; color: #f4f8fb; }
 QPushButton#modeBtn:checked { background: #123a37; color: #8ff0dc; border-color: #2f8f80; }
-QWidget#pageHost { background: #0b1118; }
+QWidget#pageHost { background: transparent; }
 QLabel#loading { color: #8ea0b2; font-family: "Segoe UI"; font-size: 12pt; }
 QLabel#errorTitle { color: #f4f8fb; font-family: "Segoe UI"; font-size: 20px; font-weight: 800; }
 QPlainTextEdit#errorText { background: #140d10; color: #f0a8a8; border: 1px solid #5a2a2a; border-radius: 8px;
@@ -129,7 +128,9 @@ class AppWindow(QtWidgets.QMainWindow):
         self.buttons = {}
         self.current = None
 
-        root = QtWidgets.QWidget()
+        from ai_detection_lab.ui.drone_backdrop import DroneBackdrop
+
+        root = DroneBackdrop()  # พื้นหลังโดรนเคลื่อนไหวจางๆ อยู่หลังทุกหน้า
         root.setObjectName("appRoot")
         self.setCentralWidget(root)
         col = QtWidgets.QVBoxLayout(root)

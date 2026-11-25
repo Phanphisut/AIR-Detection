@@ -1,5 +1,5 @@
 {
-    // venv อยู่นอก OneDrive (torch หลาย GB ไม่ต้องซิงก์ขึ้นคลาวด์)
-    "python.defaultInterpreterPath": "C:\Users\phanp\.venvs\air-detection\Scripts\python.exe",
+    // venv made by setup.bat (outside the repo / OneDrive) - works for any Windows user name
+    "python.defaultInterpreterPath": "${env:USERPROFILE}\\.venvs\\air-detection\\Scripts\\python.exe",
     "python.terminal.activateEnvironment": true
 }

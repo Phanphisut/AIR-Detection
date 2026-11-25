@@ -1,0 +1,18 @@
+# AIR Detection - packages needed to RUN from source (setup.bat installs these).
+# Same pins as requirements-windows.txt, minus the build tools (PyInstaller / Nuitka).
+# torch / torchvision: setup.bat installs the CUDA build first when an NVIDIA GPU is found.
+PySide6==6.11.2
+torch==2.14.1
+torchvision==0.29.1
+ultralytics==8.4.171
+opencv-python==5.0.0.93
+numpy==2.5.3
+matplotlib==3.11.2
+pillow==12.3.0
+PyYAML==6.0.3
+pymavlink==2.4.50
+pydantic==2.13.5
+psutil==7.2.2
+pyserial==3.5
+requests==2.34.2
+av==15.1.0
