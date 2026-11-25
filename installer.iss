@@ -1,7 +1,7 @@
 ; Inno Setup script for AIR Detection (Windows).
 ;
 ; Packages the PyInstaller onedir build (dist\AIR Detection\) into a
-; single "AIR Detection Setup v1.0.0.exe" installer. Before copying any files,
+; single "AIR Detection Setup v1.1.0.exe" installer. Before copying any files,
 ; InitializeSetup() below runs the standalone compatibility checker
 ; (build_assets\check_compatibility.py, built separately into
 ; build_assets\dist\Check Compatibility.exe) so a student on an
@@ -19,9 +19,16 @@
 ;   3. ISCC installer.iss                                           (produces dist_installer\AIR Detection Setup.exe)
 
 #define MyAppName "AIR Detection"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppExeName "AIR Detection.exe"
 #define MyCheckerExeName "Check Compatibility.exe"
+; build_windows.py passes /DDistDir= and /DCheckerDir= (its build output lives outside OneDrive)
+#ifndef DistDir
+  #define DistDir "dist"
+#endif
+#ifndef CheckerDir
+  #define CheckerDir "build_assets\dist"
+#endif
 
 [Setup]
 AppId={{99191486-E4A3-4181-B761-8F162C3EEC41}
@@ -55,11 +62,11 @@ Name: "desktopicon"; Description: "Create a &desktop shortcut"; GroupDescription
 
 [Files]
 ; The real app, installed to {app}.
-Source: "dist\AIR Detection\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "build_assets\dist\{#MyCheckerExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#DistDir}\AIR Detection\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#CheckerDir}\{#MyCheckerExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; A second copy extracted to {tmp} only, so InitializeSetup can run the
 ; compatibility check BEFORE any of the app's files above are copied.
-Source: "build_assets\dist\{#MyCheckerExeName}"; DestDir: "{tmp}"; Flags: dontcopy
+Source: "{#CheckerDir}\{#MyCheckerExeName}"; DestDir: "{tmp}"; Flags: dontcopy
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

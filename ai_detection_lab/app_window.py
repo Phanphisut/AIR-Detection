@@ -19,7 +19,7 @@ from pathlib import Path
 from PySide6 import QtCore, QtGui, QtWidgets
 
 APP_NAME = "AIR Detection"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 # ชื่อเดียวกับ AI Detection Lab v9 และ Swarm Detection Lab: เปิดซ้อนกันไม่ได้ (แย่งโดรนและกล้องกัน)
 SINGLE_INSTANCE_KEY = "AI_Detection_Lab-SingleInstanceGuard"
 

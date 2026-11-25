@@ -1,4 +1,4 @@
-# AIR Detection 1.0.0
+# AIR Detection 1.1.0
 
 แอปสอน AI และบินโดรน Hula 1 ลำพร้อม AI ตรวจจับ สำหรับเด็ก ชื่อหน้า ปุ่ม และหัวข้อเป็นภาษาอังกฤษ ส่วนคำอธิบายเป็นภาษาไทย
 แยกออกมาจาก Swarm Detection Lab เหลือแค่ 2 หน้า (ไม่มีส่วน Swarm)
@@ -32,7 +32,7 @@
 1. `setup_windows.bat` ครั้งเดียว: ติดตั้ง Python 3.13, Visual Studio Build Tools (C++), Inno Setup 6
 2. `build_windows.bat`: สร้าง `.venv` (PyTorch รุ่น CPU) → Nuitka คอมไพล์ `ai_detection_lab` เป็น .pyd
    → PyInstaller → ตัวตรวจเครื่อง → Inno Setup
-3. ผลลัพธ์: `dist\AIR Detection\AIR Detection.exe` และ `dist_installer\AIR Detection Setup v1.0.0.exe`
+3. ผลลัพธ์: `dist\AIR Detection\AIR Detection.exe` และ `dist_installer\AIR Detection Setup v1.1.0.exe`
 4. ทดสอบตัวที่ build แล้ว: `"dist\AIR Detection\AIR Detection.exe" --smoke-test <โฟลเดอร์ผล>` ดูผลใน `smoke-test.json`
 
 ตัวที่ติดตั้งแล้วเก็บข้อมูลที่ `%LOCALAPPDATA%\AIR Detection\` (แยกจาก v9) ตัวติดตั้งมี AppId ใหม่ ไม่ทับ v9

@@ -1,4 +1,4 @@
-# AI Detection Lab v6.0.0 - Windows build environment (Python 3.13, 64-bit).
+﻿# AI Detection Lab v6.0.0 - Windows build environment (Python 3.13, 64-bit).
 # Same versions as the macOS v6.0.0 build (~/.venvs/ai-detection-lab-510, 2026-10-08).
 #
 # torch from PyPI on Windows is the CPU-only build. build_windows.bat installs
@@ -27,6 +27,6 @@ av==15.1.0
 
 # build tools
 pyinstaller==6.22.3
-Nuitka==4.2.2
+Nuitka==4.3.5
 ordered-set==4.1.0
 zstandard==0.25.0

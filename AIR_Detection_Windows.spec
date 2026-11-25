@@ -60,11 +60,13 @@ datas += copy_metadata("ultralytics")
 # with every other tool on this machine) or relying on every build
 # machine having Windows long-path support enabled (a machine-wide
 # registry/group-policy setting that can't be assumed here).
+import os
 import shutil
 
 
 def _trim_distinfo_license_bloat(datas):
-    trimmed_root = _project_root / "build" / "_distinfo_trimmed"
+    # outside OneDrive when build_windows.py says where (its BUILD folder)
+    trimmed_root = Path(os.environ.get("AIR_BUILD_DIR", str(_project_root / "build"))) / "_distinfo_trimmed"
     result = []
     for src, dest in datas:
         src_path = Path(src)

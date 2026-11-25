@@ -1,4 +1,4 @@
-"""Build AIR Detection 1.0.0 for Windows (run ON Windows, 64-bit Python 3.13).
+"""Build AIR Detection 1.1.0 for Windows (run ON Windows, 64-bit Python 3.13).
 
     python build_windows.py            # Nuitka -> PyInstaller -> checker -> installer
     python build_windows.py --no-installer
@@ -10,7 +10,7 @@ Steps:
      Studio 2022 Build Tools with "Desktop development with C++".
   2. PyInstaller builds dist/AIR Detection/ from AIR_Detection_Windows.spec.
   3. A one-file "Check Compatibility.exe" for the installer's pre-install check.
-  4. Inno Setup (ISCC.exe) packs dist_installer/AIR Detection Setup v1.0.0.exe.
+  4. Inno Setup (ISCC.exe) packs dist_installer/AIR Detection Setup v1.1.0.exe.
   5. Checks the result: no ai_detection_lab .py/.pyc in the build.
 """
 from __future__ import annotations
@@ -25,6 +25,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 APP = "AIR Detection"
 PY = sys.executable
+# Everything PyInstaller/Nuitka write (thousands of files) goes OUTSIDE the project:
+# the project lives in OneDrive, whose sync client locks files so old builds cannot be
+# deleted ("Access is denied"). Only the finished installer lands in dist_installer/.
+BUILD = Path(os.environ.get("LOCALAPPDATA", str(ROOT))) / "AIR Detection build"
+DIST = BUILD / "dist"
 
 
 def run(cmd, **kw):
@@ -51,25 +56,34 @@ def compile_with_nuitka():
     for old in built:
         old.unlink()
     out.mkdir(parents=True, exist_ok=True)
+    # Nuitka's temporary C build folder holds thousands of files: inside OneDrive the
+    # sync client locks them and Nuitka cannot delete the folder afterwards. Build in
+    # %LOCALAPPDATA% instead and copy only the finished module back.
+    work = BUILD / "nuitka"
+    shutil.rmtree(work, ignore_errors=True)
+    work.mkdir(parents=True, exist_ok=True)
     run([PY, "-m", "nuitka", "--module", "ai_detection_lab",
-         "--include-package=ai_detection_lab", f"--output-dir={out}",
+         "--include-package=ai_detection_lab", f"--output-dir={work}",
          "--python-flag=no_docstrings", "--remove-output",
          "--assume-yes-for-downloads", "--msvc=latest"])
+    for f in list(work.glob("ai_detection_lab.*.pyd")) + list(work.glob("ai_detection_lab.pyi")):
+        shutil.copy2(f, out / f.name)
     stamp.write_text(digest + "\n")
 
 
 def build_app():
-    env = dict(os.environ, PYTHONPATH=str(ROOT / "vendor"), PYTHONDONTWRITEBYTECODE="1")
+    env = dict(os.environ, PYTHONPATH=str(ROOT / "vendor"), PYTHONDONTWRITEBYTECODE="1",
+               AIR_BUILD_DIR=str(BUILD))
     run([PY, "-m", "PyInstaller", "--noconfirm",
-         "--distpath", ROOT / "dist", "--workpath", ROOT / "build" / "work",
+         "--distpath", DIST, "--workpath", BUILD / "work",
          ROOT / "AIR_Detection_Windows.spec"], env=env)
 
 
 def build_checker():
     run([PY, "-m", "PyInstaller", "--noconfirm", "--onefile", "--windowed",
          "--name", "Check Compatibility", "--icon", ROOT / "build_assets" / "app_icon.ico",
-         "--distpath", ROOT / "build_assets" / "dist", "--workpath", ROOT / "build_assets" / "build",
-         "--specpath", ROOT / "build_assets", ROOT / "build_assets" / "check_compatibility.py"])
+         "--distpath", BUILD / "checker", "--workpath", BUILD / "checker-work",
+         "--specpath", BUILD, ROOT / "build_assets" / "check_compatibility.py"])
 
 
 def build_installer():
@@ -82,18 +96,19 @@ def build_installer():
         print("\n⚠️ Inno Setup 6 not found - skipping the installer. Install it from "
               "https://jrsoftware.org/isdl.php and run: ISCC installer.iss")
         return
+    iss_paths = [f"/DDistDir={DIST}", f"/DCheckerDir={BUILD / 'checker'}"]
     try:
-        run([iscc, ROOT / "installer.iss"])
+        run([iscc, *iss_paths, ROOT / "installer.iss"])
     except subprocess.CalledProcessError:
         # The CUDA build of PyTorch makes the app large; one setup .exe tops
         # out at ~2.1 GB, so Inno Setup needs disk spanning (setup .exe + .bin).
         print("\nInstaller too large for one file - retrying with disk spanning (.exe + .bin)")
-        run([iscc, "/DBigSetup", ROOT / "installer.iss"])
+        run([iscc, "/DBigSetup", *iss_paths, ROOT / "installer.iss"])
         print("⚠️ Hand out EVERYTHING in dist_installer\\ together (Setup .exe + its .bin files).")
 
 
 def verify():
-    app = ROOT / "dist" / APP
+    app = DIST / APP
     leaked = [p for p in app.rglob("*") if p.suffix in (".py", ".pyc") and "ai_detection_lab" in p.parts]
     compiled = list(app.rglob("ai_detection_lab.*.pyd"))
     params = list(app.rglob("app_params/config.py"))
@@ -136,7 +151,7 @@ def main():
     build_checker()
     if "--no-installer" not in sys.argv:
         build_installer()
-    print(f"\n✅ Done: dist\\{APP}\\{APP}.exe")
+    print(f"\n✅ Done: {DIST / APP / (APP + '.exe')}  ->  installer in dist_installer\\")
 
 
 if __name__ == "__main__":
