@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AIR Detection (Pixel UI)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/entry_point.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "subProcess": false,
+            "env": { "PYTHONUTF8": "1" }
+        },
+        {
+            "name": "AIR Detection (original UI)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/entry_point.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "subProcess": false,
+            "env": { "PYTHONUTF8": "1", "AIR_PIXEL_UI": "0" }
+        }
+    ]
+}

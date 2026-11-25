@@ -1,0 +1,32 @@
+# AI Detection Lab v6.0.0 - Windows build environment (Python 3.13, 64-bit).
+# Same versions as the macOS v6.0.0 build (~/.venvs/ai-detection-lab-510, 2026-10-08).
+#
+# torch from PyPI on Windows is the CPU-only build. build_windows.bat installs
+# torch/torchvision from https://download.pytorch.org/whl/cu126 (CUDA build)
+# BEFORE this file, so the pins below are already satisfied by 2.14.1+cu126.
+# By hand: pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cu126
+
+PySide6==6.11.2
+torch==2.14.1
+torchvision==0.29.1
+ultralytics==8.4.171
+opencv-python==5.0.0.93
+numpy==2.5.3
+matplotlib==3.11.2
+pillow==12.3.0
+PyYAML==6.0.3
+
+# pyhulax 0.2.0 itself is in vendor/pyhulax (the exact copy tested with the
+# real drone); these are its dependencies (+ its [video] extra).
+pymavlink==2.4.50
+pydantic==2.13.5
+psutil==7.2.2
+pyserial==3.5
+requests==2.34.2
+av==15.1.0
+
+# build tools
+pyinstaller==6.22.3
+Nuitka==4.2.2
+ordered-set==4.1.0
+zstandard==0.25.0

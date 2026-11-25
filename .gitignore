@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Build outputs (installers go in GitHub Releases)
+build/
+dist/
+dist_installer/
+build_assets/build/
+build_assets/dist/
+build.log
+
+# Per-user AI data (training sessions, copied models)
+AI Data & Training/

@@ -1,0 +1,6 @@
+PySide6
+opencv-python
+ultralytics
+pyhulax[video]
+pyobjc-framework-AVFoundation; sys_platform == "darwin"
+pyobjc-framework-Cocoa; sys_platform == "darwin"

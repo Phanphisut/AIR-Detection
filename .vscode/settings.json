@@ -1,0 +1,5 @@
+{
+    // venv อยู่นอก OneDrive (torch หลาย GB ไม่ต้องซิงก์ขึ้นคลาวด์)
+    "python.defaultInterpreterPath": "C:\Users\phanp\.venvs\air-detection\Scripts\python.exe",
+    "python.terminal.activateEnvironment": true
+}
